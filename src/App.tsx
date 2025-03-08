@@ -1,4 +1,4 @@
-import { useState, version, memo } from 'react'
+import { version, memo, useState } from 'react'
 
 /**
  *Please note that the Content component is only used to increase the complexity of the page,
@@ -23521,17 +23521,21 @@ const Content = memo(function Content() {
   )
 })
 
-const Textarea = memo(function Textarea() {
+const Textarea = memo(function Textarea(props: { control?: boolean }) {
   const [text, setText] = useState('')
-
-  return (
-    <textarea
-      placeholder="type something very quickly"
-      className="textarea border"
-      value={text}
-      onChange={e => setText(e.target.value)}
-    ></textarea>
-  )
+  if (props.control) {
+    return (
+      <textarea
+        value={text}
+        onChange={e => {
+          setText(e.target.value)
+        }}
+        placeholder="type something very quickly"
+        className="textarea border"
+      ></textarea>
+    )
+  }
+  return <textarea placeholder="type something very quickly" className="textarea border"></textarea>
 })
 
 export default function Test() {
@@ -23544,7 +23548,7 @@ export default function Test() {
 
         <input type="radio" name="my_tabs_3" className="tab" aria-label="Tab 2" defaultChecked />
         <div className="tab-content bg-base-100 border-base-300 p-6">
-          <Textarea />
+          <Textarea control={true} />
           <Content />
         </div>
       </div>
